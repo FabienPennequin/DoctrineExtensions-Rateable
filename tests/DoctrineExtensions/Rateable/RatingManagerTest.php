@@ -32,11 +32,8 @@ class RatingManagerTest extends \PHPUnit_Framework_TestCase
         $config->setProxyNamespace('DoctrineExtensions\Rateable\Proxies');
         //$config->setMetadataDriverImpl($config->newDefaultAnnotationDriver());
 
-        $reader = new \Doctrine\Common\Annotations\AnnotationReader();
-        $reader->setAnnotationNamespaceAlias('Doctrine\\ORM\Mapping\\', 'orm');
-
         $driverImpl = new \Doctrine\ORM\Mapping\Driver\DriverChain();
-        $driverImpl->addDriver(new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($reader), 'DoctrineExtensions\\Rateable\\Entity');
+        $driverImpl->addDriver(new \Doctrine\ORM\Mapping\Driver\XmlDriver(__DIR__.'/../../../metadata'), 'DoctrineExtensions\\Rateable\\Entity');
         $driverImpl->addDriver($config->newDefaultAnnotationDriver(), 'Tests\\DoctrineExtensions\\Rateable\\Fixtures');
         $config->setMetadataDriverImpl($driverImpl);
 

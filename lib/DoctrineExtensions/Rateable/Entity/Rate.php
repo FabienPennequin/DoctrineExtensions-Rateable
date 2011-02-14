@@ -13,48 +13,15 @@ namespace DoctrineExtensions\Rateable\Entity;
 use DoctrineExtensions\Rateable\Rateable;
 use DoctrineExtensions\Rateable\User;
 
-/**
- * @orm:Entity
- */
 class Rate
 {
-    /**
-     * @orm:Id
-     * @orm:GeneratedValue
-     * @orm:Column(type="integer")
-     */
     protected $id;
-
-    /**
-     * @orm:Column(name="resource_name", type="string")
-     */
     protected $resourceName;
-
-    /**
-     * @orm:Column(name="resource_id", type="integer")
-     */
     protected $resourceId;
-
-    /**
-     * @orm:Column(name="user_id", type="integer")
-     */
     protected $userId;
-
-    /**
-     * @orm:Column(name="score", type="integer")
-     */
     protected $score;
-
-    /**
-     * @orm:Column(name="created_at", type="datetime")
-     */
     protected $createdAt;
-
-    /**
-     * @orm:Column(name="updated_at", type="datetime")
-     */
     protected $updatedAt;
-
 
     public function __construct()
     {

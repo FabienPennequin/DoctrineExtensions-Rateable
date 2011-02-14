@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="DoctrineExtensions\Rateable\Entity\Rate" table="rating">
+
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="resourceName"  column="resource_name"  type="string" />
+        <field name="resourceId"    column="resource_id"    type="integer" />
+        <field name="userId"        column="user_id"        type="integer" />
+        <field name="score"         column="score"          type="integer" />
+
+        <field name="createdAt"     column="created_at"     type="datetime" />
+        <field name="updatedAt"     column="updated_at"     type="datetime" />
+
+    </entity>
+</doctrine-mapping>
