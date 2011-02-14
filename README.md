@@ -125,7 +125,26 @@ Example:
     }
 
 
-### Setup RatingListener
+### Setup Doctrine
+
+Finally, you need to setup doctrine for register metadata directory and register RatingListener.
+
+
+First, register the metadata directory of this package.
+
+    $config = new \Doctrine\ORM\Configuration();
+    // ...
+    $driverImpl = new \Doctrine\ORM\Mapping\Driver\XmlDriver(array('/path/to/doctrine-extensions-rateable/metadata'));
+    $config->setMetadataDriverImpl($driverImpl);
+
+or with `DriverChain`:
+
+    $driverImpl = new \Doctrine\ORM\Mapping\Driver\DriverChain();
+    // ...
+    $driverImpl->addDriver(new \Doctrine\ORM\Mapping\Driver\XmlDriver('/path/to/doctrine-extensions-rateable/metadata'), 'DoctrineExtensions\\Rateable\\Entity');
+
+
+Then, register the RatingListener.
 
     // $this->em = EntityManager::create($connection, $config);
     // ...
