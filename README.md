@@ -125,7 +125,7 @@ Example:
     }
 
 
-### Setup RateableListener
+### Setup RatingListener
 
     // $this->em = EntityManager::create($connection, $config);
     // ...

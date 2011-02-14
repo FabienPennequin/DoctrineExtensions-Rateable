@@ -24,11 +24,4 @@ interface Rateable
 
     function getRatingTotal();
     function setRatingTotal($number);
-
-    /**
-     * Returns all rates for this entity.
-     *
-     * @return Doctrine\Common\Collections\Collection An doctrine collection
-     */
-    #function getRating();
 }
