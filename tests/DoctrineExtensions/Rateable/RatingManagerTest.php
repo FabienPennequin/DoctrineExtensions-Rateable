@@ -10,12 +10,12 @@
 
 require_once __DIR__.'/Fixtures/Article.php';
 require_once __DIR__.'/Fixtures/User.php';
+require_once __DIR__.'/Fixtures/Rate.php';
 
 use DoctrineExtensions\Rateable\RatingManager;
 use DoctrineExtensions\Rateable\RatingListener;
 use Tests\DoctrineExtensions\Rateable\Fixtures\User;
 use Tests\DoctrineExtensions\Rateable\Fixtures\Article;
-
 
 class RatingManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -82,8 +82,11 @@ class RatingManagerTest extends \PHPUnit_Framework_TestCase
     {
         $manager = new RatingManager($this->em);
         $this->assertInstanceOf('DoctrineExtensions\Rateable\RatingManager', $manager);
-    }
 
+        $class = 'Tests\DoctrineExtensions\Rateable\Fixtures\Rate';
+        $manager = new RatingManager($this->em, $class);
+        $this->assertEquals($class, $manager->getRateClass());
+    }
 
     public function testAddRate()
     {

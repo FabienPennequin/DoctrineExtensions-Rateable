@@ -11,7 +11,6 @@
 namespace DoctrineExtensions\Rateable;
 
 use Doctrine\ORM\EntityManager;
-use DoctrineExtensions\Rateable\Entity\Rate;
 
 /**
  * RatingManager.
@@ -24,9 +23,10 @@ class RatingManager
     protected $minRateScore = 1;
     protected $maxRateScore = 5;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, $class = null)
     {
         $this->em = $em;
+        $this->class = $class ?: 'DoctrineExtensions\Rateable\Entity\Rate';
     }
 
     /**
@@ -52,7 +52,7 @@ class RatingManager
             throw new Exception\ResourceAlreadyRatedException('The user has already rated this resource');
         }
 
-        $rate = new Rate();
+        $rate = $this->createRate();
         $rate->setResource($resource);
         $rate->setUser($user);
         $rate->setScore($rateScore);
@@ -130,7 +130,6 @@ class RatingManager
      *
      * @return void
      */
-
     public function computeRating(Rateable $resource)
     {
         $votes = 0;
@@ -174,10 +173,10 @@ class RatingManager
     public function findRate(Rateable $resource, User $user)
     {
         return $this->em
-            ->getRepository('DoctrineExtensions\Rateable\Entity\Rate')
+            ->getRepository($this->class)
             ->findOneBy(array(
-                'resourceName'  => Rate::findResourceName($resource),
-                'resourceId'    => Rate::findResourceId($resource),
+                'resourceName'  => call_user_func(array($this->class, 'findResourceName'), $resource),
+                'resourceId'    => call_user_func(array($this->class, 'findResourceId'), $resource),
                 'userId'        => $user->getId(),
             ))
         ;
@@ -193,10 +192,10 @@ class RatingManager
     public function findRatesForResource(Rateable $resource)
     {
         return $this->em
-            ->getRepository('DoctrineExtensions\Rateable\Entity\Rate')
+            ->getRepository($this->class)
             ->findBy(array(
-                'resourceName'  => Rate::findResourceName($resource),
-                'resourceId'    => Rate::findResourceId($resource),
+                'resourceName'  => call_user_func(array($this->class, 'findResourceName'), $resource),
+                'resourceId'    => call_user_func(array($this->class, 'findResourceId'), $resource),
             ))
         ;
     }
@@ -212,6 +211,26 @@ class RatingManager
     {
         return ($score >= $this->minRateScore
             and $score <= $this->maxRateScore);
+    }
+
+    /**
+     * Returns the class name for Rate entity
+     *
+     * @return string
+     */
+    public function getRateClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * Creates a new Rate object
+     *
+     * @return Rate
+     */
+    protected function createRate()
+    {
+        return new $this->class();
     }
 
     /**
