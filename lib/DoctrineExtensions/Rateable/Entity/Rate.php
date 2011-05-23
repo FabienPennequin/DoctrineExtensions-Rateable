@@ -16,12 +16,15 @@ use DoctrineExtensions\Rateable\User;
 class Rate
 {
     protected $id;
-    protected $resourceName;
+
     protected $resourceId;
     protected $userId;
+
     protected $score;
+
     protected $createdAt;
     protected $updatedAt;
+
 
     public function __construct()
     {
