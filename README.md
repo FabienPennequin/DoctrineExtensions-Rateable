@@ -80,7 +80,7 @@ Example:
 Second, your user entity must implement `DoctrineExtensions\Rateable\User` interface.
 Four methods are needed:
 
- * `getId()`
+ * `getResourceId()`
  * `canAddRate(Rateable $resource)`
  * `canChangeRate(Rateable $resource)`
  * `canRemoveRate(Rateable $resource)`
@@ -106,6 +106,11 @@ Example:
         public function getId()
         {
             return $this->id;
+        }
+
+        public function getResourceId()
+        {
+            return 'article:'.$this->getId();
         }
 
         public function canAddRate(Rateable $resource)

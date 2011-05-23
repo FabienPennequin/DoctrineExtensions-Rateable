@@ -27,7 +27,6 @@ class RateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers DoctrineExtensions\Rateable\Entity\Rate::setResource
-     * @covers DoctrineExtensions\Rateable\Entity\Rate::getResourceName
      * @covers DoctrineExtensions\Rateable\Entity\Rate::getResourceId
      */
     public function testSetGetResource()
@@ -38,8 +37,7 @@ class RateTest extends \PHPUnit_Framework_TestCase
         $rate = new Rate();
         $rate->setResource($article);
 
-        $this->assertEquals(123, $rate->getResourceId());
-        $this->assertEquals('Tests\\DoctrineExtensions\\Rateable\\Fixtures\\Article', $rate->getResourceName());
+        $this->assertEquals($article->getResourceId(), $rate->getResourceId());
     }
 
     /**

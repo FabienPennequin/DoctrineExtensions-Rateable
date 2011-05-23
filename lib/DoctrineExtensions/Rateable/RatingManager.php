@@ -175,8 +175,7 @@ class RatingManager
         return $this->em
             ->getRepository($this->class)
             ->findOneBy(array(
-                'resourceName'  => call_user_func(array($this->class, 'findResourceName'), $resource),
-                'resourceId'    => call_user_func(array($this->class, 'findResourceId'), $resource),
+                'resourceId'    => $resource->getResourceId(),
                 'userId'        => $user->getId(),
             ))
         ;
@@ -194,8 +193,7 @@ class RatingManager
         return $this->em
             ->getRepository($this->class)
             ->findBy(array(
-                'resourceName'  => call_user_func(array($this->class, 'findResourceName'), $resource),
-                'resourceId'    => call_user_func(array($this->class, 'findResourceId'), $resource),
+                'resourceId'    => $resource->getResourceId(),
             ))
         ;
     }

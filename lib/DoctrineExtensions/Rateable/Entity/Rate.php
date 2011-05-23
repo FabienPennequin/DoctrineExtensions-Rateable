@@ -36,13 +36,7 @@ class Rate
 
     public function setResource(Rateable $resource)
     {
-        $this->resourceName = static::findResourceName($resource);
-        $this->resourceId = static::findResourceId($resource);
-    }
-
-    public function getResourceName()
-    {
-        return $this->resourceName;
+        $this->resourceId = $resource->getResourceId();
     }
 
     public function getResourceId()
@@ -88,16 +82,5 @@ class Rate
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-
-
-    public static function findResourceName(Rateable $resource)
-    {
-        return get_class($resource);
-    }
-
-    public static function findResourceId(Rateable $resource)
-    {
-        return $resource->getId();
     }
 }

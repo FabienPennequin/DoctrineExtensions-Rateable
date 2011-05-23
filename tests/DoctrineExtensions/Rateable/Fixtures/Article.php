@@ -40,6 +40,11 @@ class Article implements \DoctrineExtensions\Rateable\Rateable
         return $this->id;
     }
 
+    public function getResourceId()
+    {
+        return 'article:'.$this->getId();
+    }
+
     public function getRatingVotes()
     {
         return $this->ratingVotes;

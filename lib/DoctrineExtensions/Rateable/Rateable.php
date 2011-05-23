@@ -17,7 +17,7 @@ namespace DoctrineExtensions\Rateable;
  */
 interface Rateable
 {
-    function getId();
+    function getResourceId();
 
     function getRatingVotes();
     function setRatingVotes($number);

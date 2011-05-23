@@ -101,7 +101,7 @@ class RatingManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(9, $this->article->getRatingTotal());
 
         $rate = $this->manager->findRate($this->article, $user);
-        $this->assertEquals($this->article->getId(), $rate->getResourceId());
+        $this->assertEquals($this->article->getResourceId(), $rate->getResourceId());
         $this->assertEquals(4, $rate->getScore());
     }
 
