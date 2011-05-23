@@ -21,6 +21,21 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
  */
 class RatingListener implements EventSubscriber
 {
+    protected $manager;
+
+    /**
+     * Constructor
+     *
+     * @param ContainerInterface $container
+     */
+    public function __construct(RatingManager $manager)
+    {
+        $this->manager = $manager;
+    }
+
+    /**
+     * @see Doctrine\Common\EventSubscriber
+     */
     public function getSubscribedEvents()
     {
         return array(Events::preRemove);
@@ -33,9 +48,8 @@ class RatingListener implements EventSubscriber
     {
         if (($resource = $args->getEntity()) and $resource instanceof Rateable) {
             $em = $args->getEntityManager();
-            $manager = new RatingManager($em);
 
-            foreach ($manager->findRatesForResource($resource) as $rate) {
+            foreach ($this->manager->findRatesForResource($resource) as $rate) {
                 $em->remove($rate);
             }
         }

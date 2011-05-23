@@ -149,31 +149,30 @@ Then, register the RatingListener.
     // $this->em = EntityManager::create($connection, $config);
     // ...
 
-    $this->em->getEventManager()->addEventSubscriber(new RatingListener());
+    $this->ratingManager = new RatingManager($this->em);
+    $this->em->getEventManager()->addEventSubscriber(new RatingListener($this->ratingManager));
 
 
 ### Using RatingManager
 
 Now, you can use RatingManager.
 
-    $ratingManager = new RatingManager($em);
-
     // Add a new rate..
-    $ratingManager->addRate($resource, $user, 4);
+    $this->ratingManager->addRate($resource, $user, 4);
 
     // Change my rate..
-    $ratingManager->changeRate($resource, $user, 2);
+    $this->ratingManager->changeRate($resource, $user, 2);
 
     // Remove my rate..
     try {
-        $ratingManager->removeRate($resource, $user);
+        $this->ratingManager->removeRate($resource, $user);
     } catch (PermissionDeniedException $e) {
         echo 'Oh, no permission to remove my rate!';
     }
 
 
     // Compute resource rating score...
-    $ratingManager->getRatingScore($resource); // will return 2
+    $this->ratingManager->getRatingScore($resource); // will return 2
 
 
 ### Exceptions

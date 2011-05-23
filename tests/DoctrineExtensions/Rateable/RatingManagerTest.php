@@ -42,8 +42,6 @@ class RatingManagerTest extends \PHPUnit_Framework_TestCase
             $config
         );
 
-        $this->em->getEventManager()->addEventSubscriber(new RatingListener());
-
         $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
         $schemaTool->dropSchema(array());
         $schemaTool->createSchema(array(
@@ -73,6 +71,8 @@ class RatingManagerTest extends \PHPUnit_Framework_TestCase
         $this->em->flush();
 
         $this->manager = new RatingManager($this->em);
+        $this->em->getEventManager()->addEventSubscriber(new RatingListener($this->manager));
+
         $this->manager->addRate($article1, $user1, 5);
         $this->manager->addRate($this->article, $user1, 3);
         $this->manager->addRate($this->article, $user2, 2);
