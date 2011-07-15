@@ -53,6 +53,11 @@ Example:
             return $this->id;
         }
 
+        public function getResourceId()
+        {
+            return 'article-'.$this->getId();
+        }
+
         public function getRatingVotes()
         {
             return $this->ratingVotes;
