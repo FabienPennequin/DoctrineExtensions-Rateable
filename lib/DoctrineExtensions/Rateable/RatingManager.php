@@ -38,7 +38,7 @@ class RatingManager
      *
      * @return void
      */
-    public function addRate(Rateable $resource, User $user, $rateScore)
+    public function addRate(Rateable $resource, User $user, $rateScore, $save=true)
     {
         if (!$user->canAddRate($resource)) {
             throw new Exception\PermissionDeniedException('This user cannot add a rate for this resource');
@@ -56,11 +56,16 @@ class RatingManager
         $rate->setResource($resource);
         $rate->setUser($user);
         $rate->setScore($rateScore);
-        $this->saveEntity($rate);
 
         $resource->setRatingVotes($resource->getRatingVotes() + 1);
         $resource->setRatingTotal($resource->getRatingTotal() + $rateScore);
-        $this->saveEntity($resource);
+
+        if ($save) {
+            $this->saveEntity($rate);
+            $this->saveEntity($resource);
+        }
+
+        return $rate;
     }
 
     /**
