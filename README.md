@@ -14,7 +14,7 @@ Each rate is a tuple consisting of a resource id, a user id and a score.
 First, your entity must implement the `DoctrineExtensions\Rateable\Rateable` interface.
 Five methods in your entity must be written:
 
- * `getId()`
+ * `getResourceId()`
  * `getRatingVotes()`
  * `setRatingVotes($number)`
  * `getRatingTotal()`
@@ -75,12 +75,12 @@ Example:
     }
 
 
-### Implement the DoctrineExtensions\Rateable\User interface.
+### Implement the DoctrineExtensions\Rateable\Reviewer interface.
 
-Second, your user entity must implement `DoctrineExtensions\Rateable\User` interface.
+Second, your user entity must implement `DoctrineExtensions\Rateable\Reviewer` interface.
 Four methods are needed:
 
- * `getResourceId()`
+ * `getReviewerId()`
  * `canAddRate(Rateable $resource)`
  * `canChangeRate(Rateable $resource)`
  * `canRemoveRate(Rateable $resource)`
@@ -89,12 +89,12 @@ Example:
 
     namespace MyProject;
     use DoctrineExtensions\Rateable\Rateable;
-    use DoctrineExtensions\Rateable\User as RateableUser;
+    use DoctrineExtensions\Rateable\Reviewer;
 
     /**
      * @Entity
      */
-    class User implements RateableUser
+    class User implements Reviewer
     {
         /**
          * @Id
@@ -108,9 +108,9 @@ Example:
             return $this->id;
         }
 
-        public function getResourceId()
+        public function getReviewerId()
         {
-            return 'article:'.$this->getId();
+            return $this->getId();
         }
 
         public function canAddRate(Rateable $resource)

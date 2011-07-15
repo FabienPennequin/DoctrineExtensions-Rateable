@@ -11,14 +11,14 @@
 namespace DoctrineExtensions\Rateable\Entity;
 
 use DoctrineExtensions\Rateable\Rateable;
-use DoctrineExtensions\Rateable\User;
+use DoctrineExtensions\Rateable\Reviewer;
 
 class Rate
 {
     protected $id;
 
     protected $resourceId;
-    protected $userId;
+    protected $reviewerId;
 
     protected $score;
 
@@ -47,14 +47,14 @@ class Rate
         return $this->resourceId;
     }
 
-    public function setUser(User $user)
+    public function setReviewer(Reviewer $reviewer)
     {
-        $this->userId = $user->getId();
+        $this->reviewerId = $reviewer->getReviewerId();
     }
 
-    public function getUserId()
+    public function getReviewerId()
     {
-        return $this->userId;
+        return $this->reviewerId;
     }
 
     public function setScore($score)

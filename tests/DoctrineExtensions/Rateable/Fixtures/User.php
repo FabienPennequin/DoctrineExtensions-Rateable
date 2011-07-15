@@ -3,11 +3,12 @@
 namespace Tests\DoctrineExtensions\Rateable\Fixtures;
 
 use DoctrineExtensions\Rateable\Rateable;
+use DoctrineExtensions\Rateable\Reviewer;
 
 /**
  * @Entity
  */
-class User implements \DoctrineExtensions\Rateable\User
+class User implements Reviewer
 {
     /**
      * @Id
@@ -25,12 +26,16 @@ class User implements \DoctrineExtensions\Rateable\User
     public $canChangeRate = true;
     public $canRemoveRate = true;
 
-
     public function getId()
     {
         return $this->id;
     }
 
+
+    public function getReviewerId()
+    {
+        return $this->getId();
+    }
 
     public function canAddRate(Rateable $resource)
     {

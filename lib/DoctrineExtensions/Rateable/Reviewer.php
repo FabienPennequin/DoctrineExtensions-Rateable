@@ -11,18 +11,18 @@
 namespace DoctrineExtensions\Rateable;
 
 /**
- * User is the interface that user entity must implement.
+ * Reviewer is the interface that user entity must implement.
  *
  * @author Fabien Pennequin <fabien@pennequin.me>
  */
-interface User
+interface Reviewer
 {
     /**
      * Returns unique identifiant
      *
      * @return integer An unique identifiant
      */
-    function getId();
+    function getReviewerId();
 
     /**
      * Check if user can add a rate for the resource

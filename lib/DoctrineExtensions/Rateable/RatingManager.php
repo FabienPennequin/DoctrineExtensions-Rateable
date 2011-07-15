@@ -33,28 +33,28 @@ class RatingManager
      * Adds a new rate.
      *
      * @param Rateable  $resource   The resource object
-     * @param User      $resource   The user object
+     * @param Reviewer  $reviewer   The reviewer object
      * @param integer   $rateScore  The rate score
      *
      * @return void
      */
-    public function addRate(Rateable $resource, User $user, $rateScore, $save=true)
+    public function addRate(Rateable $resource, Reviewer $reviewer, $rateScore, $save=true)
     {
-        if (!$user->canAddRate($resource)) {
-            throw new Exception\PermissionDeniedException('This user cannot add a rate for this resource');
+        if (!$reviewer->canAddRate($resource)) {
+            throw new Exception\PermissionDeniedException('This reviewer cannot add a rate for this resource');
         }
 
         if (!$this->isValidRateScore($rateScore)) {
             throw new Exception\InvalidRateScoreException($this->minRateScore, $this->maxRateScore);
         }
 
-        if ($this->findRate($resource, $user)) {
-            throw new Exception\ResourceAlreadyRatedException('The user has already rated this resource');
+        if ($this->findRate($resource, $reviewer)) {
+            throw new Exception\ResourceAlreadyRatedException('The reviewer has already rated this resource');
         }
 
         $rate = $this->createRate();
         $rate->setResource($resource);
-        $rate->setUser($user);
+        $rate->setReviewer($reviewer);
         $rate->setScore($rateScore);
 
         $resource->setRatingVotes($resource->getRatingVotes() + 1);
@@ -72,22 +72,22 @@ class RatingManager
      * Changes score for an existant rate.
      *
      * @param Rateable  $resource   The resource object
-     * @param User      $resource   The user object
+     * @param Reviewer  $reviewer   The reviewer object
      * @param integer   $rateScore  The new rate score
      *
      * @return void
      */
-    public function changeRate(Rateable $resource, User $user, $rateScore)
+    public function changeRate(Rateable $resource, Reviewer $reviewer, $rateScore)
     {
-        if (!$user->canChangeRate($resource)) {
-            throw new Exception\PermissionDeniedException('This user cannot change his rate for this resource');
+        if (!$reviewer->canChangeRate($resource)) {
+            throw new Exception\PermissionDeniedException('This reviewer cannot change his rate for this resource');
         }
 
         if (!$this->isValidRateScore($rateScore)) {
             throw new Exception\InvalidRateScoreException($this->minRateScore, $this->maxRateScore);
         }
 
-        if (!($rate = $this->findRate($resource, $user))) {
+        if (!($rate = $this->findRate($resource, $reviewer))) {
             throw new Exception\NotFoundRateException('Unable to find rate object');
         }
 
@@ -105,17 +105,17 @@ class RatingManager
      * Removes an existant rate.
      *
      * @param Rateable  $resource   The resource object
-     * @param User      $resource   The user object
+     * @param Reviewer  $reviewer   The reviewer object
      *
      * @return void
      */
-    public function removeRate(Rateable $resource, User $user)
+    public function removeRate(Rateable $resource, Reviewer $reviewer)
     {
-        if (!$user->canRemoveRate($resource)) {
-            throw new Exception\PermissionDeniedException('This user cannot remove his rate for this resource');
+        if (!$reviewer->canRemoveRate($resource)) {
+            throw new Exception\PermissionDeniedException('This reviewer cannot remove his rate for this resource');
         }
 
-        if (!($rate = $this->findRate($resource, $user))) {
+        if (!($rate = $this->findRate($resource, $reviewer))) {
             throw new Exception\NotFoundRateException('Unable to find rate object');
         }
 
@@ -168,20 +168,20 @@ class RatingManager
     }
 
     /**
-     * Finds a rate object for a couple resource/user.
+     * Finds a rate object for a couple resource/reviewer.
      *
      * @param Rateable  $resource   The resource object
-     * @param User      $resource   The user object
+     * @param Reviewer  $reviewer   The reviewer object
      *
      * @return null|Rate The rate object if exist, null otherwise
      */
-    public function findRate(Rateable $resource, User $user)
+    public function findRate(Rateable $resource, Reviewer $reviewer)
     {
         return $this->em
             ->getRepository($this->class)
             ->findOneBy(array(
                 'resourceId'    => $resource->getResourceId(),
-                'userId'        => $user->getId(),
+                'reviewerId'    => $reviewer->getReviewerId(),
             ))
         ;
     }

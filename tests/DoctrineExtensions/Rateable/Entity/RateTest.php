@@ -41,17 +41,17 @@ class RateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers DoctrineExtensions\Rateable\Entity\Rate::setUser
-     * @covers DoctrineExtensions\Rateable\Entity\Rate::getUserId
+     * @covers DoctrineExtensions\Rateable\Entity\Rate::setReviewer
+     * @covers DoctrineExtensions\Rateable\Entity\Rate::getReviewerId
      */
-    public function testSetGetUser()
+    public function testSetGetReviewer()
     {
         $user = new User();
         $user->id = 345;
 
         $rate = new Rate();
-        $rate->setUser($user);
+        $rate->setReviewer($user);
 
-        $this->assertEquals(345, $rate->getUserId());
+        $this->assertEquals(345, $rate->getReviewerId());
     }
 }

@@ -12,7 +12,7 @@
 
         <field name="resourceId"    column="resource_id"    type="string" length="50" />
 
-        <field name="userId"        column="user_id"        type="integer"  />
+        <field name="reviewerId"    column="reviewer_id"    type="integer"  />
         <field name="score"         column="score"          type="integer" />
 
         <field name="createdAt"     column="created_at"     type="datetime" />
